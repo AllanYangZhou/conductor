@@ -39,7 +39,7 @@ Leap.loop(function(frame){
 var Pointer = function(){
 	var pointer = this;
 	var img = document.createElement('img');
-	img.src = 'http://upload.wikimedia.org/wikipedia/commons/0/0f/Black_dot.png';
+	img.src = '/static/dot.gif';
 	img.style.position = 'absolute';
 	img.onload = function(){
 		document.body.appendChild(img);
