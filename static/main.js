@@ -1,18 +1,26 @@
 var pointers = {};
 var music = document.getElementById("theSong");
+var alerts = document.getElementById("alerts");
+music.playbackRate = 0;
 Leap.loop(function(frame){
-	if(frame.hands.length === 0){
-		music.playbackRate = 0;
-	}
-	else {
-		music.playbackRate = 1;
-	}
 	frame.hands.forEach(function(hand, index){
 		var pointer = (pointers[index] || (pointers[index] = new Pointer()))
 		pointer.setPosition(hand.screenPosition());
 	});
-}).use('screenPosition', {scale: 0.25});
+})
+.use('screenPosition', {scale: 0.50})
+.use('handEntry')
+.on('handFound', function(){
+	alerts.innerHTML = 'Everything is running smoothly!';
+	music.playbackRate = 1;
+})
+.on('handLost', function(){
+	alerts.innerHTML = 'You done goofed--we lost a hand!';
+	music.playbackRate = 0;
+});
 
+
+//creates new pointer
 var Pointer = function(){
 	var pointer = this;
 	var img = document.createElement('img');
