@@ -1,18 +1,12 @@
 var pointers = {};
 var music = document.getElementById("theSong");
 Leap.loop(function(frame){
-	music.playbackRate = 1;
-	if(frame.hands.length > 0){
-		var index = frame.hands[0].indexFinger;
-		if(index.extended == false){
-			console.log(frame.hands[0].grabStrength)
-			if(frame.hands[0].grabStrength > 0.8){
-				music.playbackRate = 0;
-			}
-
-		}
+	if(frame.hands.length === 0){
+		music.playbackRate = 0;
 	}
-
+	else {
+		music.playbackRate = 1;
+	}
 	frame.hands.forEach(function(hand, index){
 		var pointer = (pointers[index] || (pointers[index] = new Pointer()))
 		pointer.setPosition(hand.screenPosition());
