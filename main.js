@@ -1,5 +1,12 @@
 var pointers = {};
+var music = document.getElementById("theSong");
 Leap.loop(function(frame){
+	if(frame.hands.length === 0){
+		music.playbackRate = 0;
+	}
+	else {
+		music.playbackRate = 1;
+	}
 	frame.hands.forEach(function(hand, index){
 		var pointer = (pointers[index] || (pointers[index] = new Pointer()))
 		pointer.setPosition(hand.screenPosition());
