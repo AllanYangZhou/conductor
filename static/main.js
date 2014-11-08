@@ -3,6 +3,20 @@ var music = document.getElementById("theSong");
 var alerts = document.getElementById("alerts");
 music.playbackRate = 0;
 Leap.loop(function(frame){
+	if(frame.hands.length > 0){
+		var index = frame.hands[0].indexFinger;
+		if(index.extended == false){
+			console.log(frame.hands[0].grabStrength)
+			if(frame.hands[0].grabStrength > 0.8){
+				alerts.innerHTML = "Paused!";
+				music.playbackRate = 0;
+			}
+			else {
+				alerts.innerHTML = "Everything is running smoothly!";
+				music.playbackRate = 1;
+			}
+		}
+	}
 	frame.hands.forEach(function(hand, index){
 		var pointer = (pointers[index] || (pointers[index] = new Pointer()))
 		pointer.setPosition(hand.screenPosition());
