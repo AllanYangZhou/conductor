@@ -1,6 +1,7 @@
 var pointers = {};
 var music = document.getElementById("theSong");
 var alerts = document.getElementById("alerts");
+alerts.innerHTML = "Waiting to start."
 music.playbackRate = 0;
 Leap.loop(function(frame){
 	if(frame.hands.length > 0){
