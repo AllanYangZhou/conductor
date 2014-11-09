@@ -58,7 +58,7 @@ Leap.loop(function(frame){
 		}
 		else if(boxFinder(pointerCoord.x, pointerCoord.y) && !prev[0]){
 			var current = new Date();
-			var difference = (current-prev[1])/1000;
+			var difference = (current.getTime()-prev[1].getTime())/1000;
 			console.log(difference);
 			prev[0] = true;
 			prev[1] = current;
