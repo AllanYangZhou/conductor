@@ -1,0 +1,14 @@
+body {
+	background-image: url("seamless_paper_texture.png");
+}
+
+.vertical-center {
+	min-height: 100%;
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+}
+
+.glyph-lg {
+	font-size: 5em;
+}
