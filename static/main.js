@@ -70,7 +70,7 @@ Leap.loop(function(frame){
 		float framedifference = currframerate - previousframerate
 		previousframerate = currframerate
 		float conductorbpm = 60 / framedifference
-		float newspeed = conductorbpm / 154
+		float newspeed = conductorbpm / 154  
 		music.playbackRate = newspeed
 	}
 	else {
