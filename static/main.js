@@ -6,7 +6,13 @@ var status = document.getElementById("status-icon");
 var height = window.innerHeight;
 var width = window.innerWidth;
 var pointerCoord = {x:0, y:0};
+<<<<<<< HEAD
 var prev = [];
+=======
+var prev = []; // first object is true/ false, 2nd object is date
+var times = []; //array that takes holds times between beats
+var outofbounds = true;
+>>>>>>> origin/master
 
 var generalError = function(){
 	alerts.innerHTML = 'Something went wrong. Oops.';
@@ -46,17 +52,36 @@ var boxFinder = function(x, y){
 
 music.playbackRate = 0;
 Leap.loop(function(frame){
+<<<<<<< HEAD
 	if(frame.hands.length > 2){
+=======
+	console.log(outofbounds);
+	if(frame.hands.length > 2 || frame.hands.length == 0){  //IF there are more than 2 hands, you done goofed
+>>>>>>> origin/master
 		generalError();
+		outofbounds = true;
 	}	
+<<<<<<< HEAD
 	else if(frame.hands.length == 0 || (frame.hands.length == 1 && frame.hands[0].type == "left")){
+=======
+
+	else if(frame.hands.length == 1 && frame.hands[0].type == "left") //If there are no hands or just the left, you are not composing
+	{ 
+>>>>>>> origin/master
 		noComposingHand();
+		outofbounds = true;
 	}
 	else{
 		if(prev.length == 0){
 			prev = [boxFinder(pointerCoord.x, pointerCoord.y), new Date()];
 		}
+<<<<<<< HEAD
 		else if(boxFinder(pointerCoord.x, pointerCoord.y) && !prev[0]){
+=======
+
+		else if(!prev[0] && boxFinder(pointerCoord.x, pointerCoord.y) && outofbounds != true){ //IF the previous is False and you are in a box
+			prev[0] = true; 
+>>>>>>> origin/master
 			var current = new Date();
 			var difference = (current.getTime()-prev[1].getTime())/1000;
 			console.log(difference);
@@ -66,6 +91,12 @@ Leap.loop(function(frame){
 		else if(!(boxFinder(pointerCoord.x, pointerCoord.y))) {
 			prev[0] = false;
 		}
+<<<<<<< HEAD
+=======
+		outofbounds = false;
+
+
+>>>>>>> origin/master
 		frame.hands.forEach(function(hand, index){
 			var handType = hand.type;
 			//if left hand do volume control
