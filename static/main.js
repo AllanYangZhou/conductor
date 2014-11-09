@@ -51,8 +51,13 @@ var boxFinder = function(x, y){
 music.playbackRate = 0;
 Leap.loop(function(frame){
 	console.log(outofbounds);
-	if(frame.hands.length > 2 || frame.hands.length == 0){  //IF there are more than 2 hands, you done goofed
+	if(frame.hands.length > 2){  //IF there are more than 2 hands, you done goofed
 		generalError();
+		outofbounds = true;
+	}
+
+	else if(frame.hands.length == 0)
+	{
 		outofbounds = true;
 	}	
 
@@ -88,7 +93,7 @@ Leap.loop(function(frame){
 			if (times.length == 4)
 			{
 				avg_time = (times[0] + times[1] + times[2] + times[3])/4;
-				music.playbackRate = (60/ avg_time)/ 154;
+				music.playbackRate = (60/ avg_time)/ 147;
 				times = [];
 			}
 
