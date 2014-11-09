@@ -7,7 +7,6 @@ var height = window.innerHeight;
 var width = window.innerWidth;
 var pointerCoord = {x:0, y:0};
 var prev = [];
-bool outofbounds = true;
 
 var generalError = function(){
 	alerts.innerHTML = 'Something went wrong. Oops.';
@@ -47,19 +46,17 @@ var boxFinder = function(x, y){
 
 music.playbackRate = 0;
 Leap.loop(function(frame){
-	if(frame.hands.length > 2 || frame.hands.length == 0){
+	if(frame.hands.length > 2){
 		generalError();
-		outofbounds = true;
 	}	
-	else if((frame.hands.length == 1 && frame.hands[0].type == "left")){
+	else if(frame.hands.length == 0 || (frame.hands.length == 1 && frame.hands[0].type == "left")){
 		noComposingHand();
-		outofbounds = true;
 	}
 	else{
 		if(prev.length == 0){
 			prev = [boxFinder(pointerCoord.x, pointerCoord.y), new Date()];
 		}
-		else if(boxFinder(pointerCoord.x, pointerCoord.y) && !prev[0] && outofbounds != true){ //outofbounds checks if pointer was previously out of bounds
+		else if(boxFinder(pointerCoord.x, pointerCoord.y) && !prev[0]){
 			var current = new Date();
 			var difference = (current.getTime()-prev[1].getTime())/1000;
 			console.log(difference);
@@ -69,7 +66,6 @@ Leap.loop(function(frame){
 		else if(!(boxFinder(pointerCoord.x, pointerCoord.y))) {
 			prev[0] = false;
 		}
-		outofbounds = false; //obviously pointer is back on screen, so reset outofbounds to false
 		frame.hands.forEach(function(hand, index){
 			var handType = hand.type;
 			//if left hand do volume control
