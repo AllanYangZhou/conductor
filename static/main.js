@@ -8,6 +8,7 @@ var width = window.innerWidth;
 var pointerCoord = {x:0, y:0};
 var prev = []; // first object is true/ false, 2nd object is date
 var times = []; //array that takes holds times between beats
+var outofbounds = true;
 
 var generalError = function(){
 	alerts.innerHTML = 'Something went wrong. Oops.';
@@ -49,15 +50,16 @@ var boxFinder = function(x, y){
 
 music.playbackRate = 0;
 Leap.loop(function(frame){
-	console.log(times);
-	if(frame.hands.length > 2){  //IF there are more than 2 hands, you done goofed
+	console.log(outofbounds);
+	if(frame.hands.length > 2 || frame.hands.length == 0){  //IF there are more than 2 hands, you done goofed
 		generalError();
+		outofbounds = true;
 	}	
 
-
-	else if(frame.hands.length == 0 || (frame.hands.length == 1 && frame.hands[0].type == "left")) //If there are no hands or just the left, you are not composing
+	else if(frame.hands.length == 1 && frame.hands[0].type == "left") //If there are no hands or just the left, you are not composing
 	{ 
 		noComposingHand();
+		outofbounds = true;
 	}
 
 
@@ -68,7 +70,7 @@ Leap.loop(function(frame){
 			prev = [boxFinder(pointerCoord.x, pointerCoord.y), new Date()];
 		}
 
-		else if(!prev[0] && boxFinder(pointerCoord.x, pointerCoord.y)){ //IF the previous is False and you are in a box
+		else if(!prev[0] && boxFinder(pointerCoord.x, pointerCoord.y) && outofbounds != true){ //IF the previous is False and you are in a box
 			prev[0] = true; 
 			var current = new Date();
 
@@ -95,6 +97,7 @@ Leap.loop(function(frame){
 		else if (prev[0] && !boxFinder(pointerCoord.x, pointerCoord.y)){  //If the previous is True and you are outside a box
 			prev[0] = false;
 		}
+		outofbounds = false;
 
 
 		frame.hands.forEach(function(hand, index){
