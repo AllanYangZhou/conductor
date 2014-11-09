@@ -1,17 +1,23 @@
 
 var pointers = {};
 var music = document.getElementById("theSong");
+<<<<<<< HEAD
 music.volume = 0.7
+=======
+var alerts = document.getElementById("alerts");
+music.playbackRate = 0;
+>>>>>>> origin/master
 Leap.loop(function(frame){
-	music.playbackRate = 1;
 	if(frame.hands.length > 0){
 		console.log(music.volume);
 		var index = frame.hands[0].indexFinger;
 		if(index.extended == false || Math.abs(frame.hands[0].palmNormal[1]) > .7){
 			
 			if(frame.hands[0].grabStrength > 0.8){
+				alerts.innerHTML = "Paused!";
 				music.playbackRate = 0;
 			}
+<<<<<<< HEAD
 			else if(frame.hands[0].palmNormal[1] < 0 && frame.hands[0].palmVelocity[1] < -70){
 				if(music.volume-0.01 > .01){
 					music.volume = music.volume -0.015;
@@ -23,15 +29,32 @@ Leap.loop(function(frame){
 				}
 			}
 
+=======
+			else {
+				alerts.innerHTML = "Everything is running smoothly!";
+				music.playbackRate = 1;
+			}
+>>>>>>> origin/master
 		}
 	}
-
 	frame.hands.forEach(function(hand, index){
 		var pointer = (pointers[index] || (pointers[index] = new Pointer()))
 		pointer.setPosition(hand.screenPosition());
 	});
-}).use('screenPosition', {scale: 0.25});
+})
+.use('screenPosition', {scale: 0.50})
+.use('handEntry')
+.on('handFound', function(){
+	alerts.innerHTML = 'Everything is running smoothly!';
+	music.playbackRate = 1;
+})
+.on('handLost', function(){
+	alerts.innerHTML = 'You done goofed--we lost a hand!';
+	music.playbackRate = 0;
+});
 
+
+//creates new pointer
 var Pointer = function(){
 	var pointer = this;
 	var img = document.createElement('img');
