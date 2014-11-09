@@ -54,13 +54,17 @@ Leap.loop(function(frame){
 	}
 	else{
 		if(prev.length == 0){
-			prev = [boxFinder(pointerCoord.x, pointerCoord.y), new Date(3600*24*1000)];
+			prev = [boxFinder(pointerCoord.x, pointerCoord.y), new Date()];
 		}
-		else if(!prev[0] && boxFinder(pointerCoord.x, pointerCoord.y)){
-			
+		else if(boxFinder(pointerCoord.x, pointerCoord.y) && !prev[0]){
+			var current = new Date();
+			var difference = (current-prev[1])/1000;
+			console.log(difference);
+			prev[0] = true;
+			prev[1] = current;
 		}
-		else {
-
+		else if(!(boxFinder(pointerCoord.x, pointerCoord.y))) {
+			prev[0] = false;
 		}
 		frame.hands.forEach(function(hand, index){
 			var handType = hand.type;
