@@ -17,7 +17,7 @@ var generalError = function(){
 };
 
 var noComposingHand = function(){
-	alerts.innerHTML = 'Waiting for composing hand.';
+	alerts.innerHTML = 'Waiting for conducting hand.';
 	document.getElementById("status-icon").className = 'glyphicon glyphicon-minus-sign glyph-lg';
 	music.playbackRate = 0;
 };
