@@ -1,14 +1,11 @@
 
 var pointers = {};
 var music = document.getElementById("theSong");
-<<<<<<< HEAD
 music.volume = 0.7
-=======
 var alerts = document.getElementById("alerts");
 var status = document.getElementById("status-icon");
 
 music.playbackRate = 0;
->>>>>>> origin/master
 Leap.loop(function(frame){
 	if(frame.hands.length > 0){
 		console.log(music.volume);
@@ -20,7 +17,6 @@ Leap.loop(function(frame){
 				document.getElementById("status-icon").className = 'glyphicon glyphicon-play glyph-lg';
 				music.playbackRate = 0;
 			}
-<<<<<<< HEAD
 			else if(frame.hands[0].palmNormal[1] < 0 && frame.hands[0].palmVelocity[1] < -70){
 				if(music.volume-0.01 > .01){
 					music.volume = music.volume -0.015;
@@ -32,13 +28,11 @@ Leap.loop(function(frame){
 				}
 			}
 
-=======
 			else {
 				alerts.innerHTML = "Everything is running smoothly!";
 				document.getElementById("status-icon").className = 'glyphicon glyphicon-pause glyph-lg';
 				music.playbackRate = 1;
 			}
->>>>>>> origin/master
 		}
 	}
 	frame.hands.forEach(function(hand, index){
