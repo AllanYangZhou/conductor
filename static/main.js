@@ -11,7 +11,7 @@ var generalError = function(){
 };
 
 var noComposingHand = function(){
-	alerts.innerHTML = 'Uh Oh! Where is your hand?';
+	alerts.innerHTML = 'Waiting for composing hand.';
 	document.getElementById("status-icon").className = 'glyphicon glyphicon-minus-sign glyph-lg';
 	music.playbackRate = 0;
 };
@@ -40,24 +40,23 @@ Leap.loop(function(frame){
 						music.volume = music.volume -0.015;
 					}
 				}
-				else if(hand.palmNormal[1] > 0 && hand.palmVelocity[1] > 70){
+				else if(hand.palmVelocity[1] > 70){
 					if(music.volume+0.01 < .99){
 						music.volume = music.volume + 0.015;
 					}
 				}
 			}
 			else if(handType == "right"){
-				var pointer = (pointers[index] || (pointers[index] = new Pointer()))
+				var pointer = (pointers[0] || (pointers[0] = new Pointer()));
 				pointer.setPosition(hand.screenPosition());
 				var index = hand.indexFinger;
-				if(index.extended == false || Math.abs(hand.palmNormal[1]) > .7){
-					if(frame.hands[0].grabStrength > 0.8){
-						alerts.innerHTML = "Paused!";
-						document.getElementById("status-icon").className = 'glyphicon glyphicon-play glyph-lg';
-						music.playbackRate = 0;
-					}
+				if(frame.hands[0].grabStrength > 0.8){
+					alerts.innerHTML = "Paused!";
+					document.getElementById("status-icon").className = 'glyphicon glyphicon-play glyph-lg';
+					music.playbackRate = 0;
+				} else {
+					yesComposingHand();
 				}
-				
 			}
 		});
 	}
@@ -74,6 +73,6 @@ var Pointer = function(){
 	};
 	pointer.setPosition = function(position){
 		img.style.left = position[0] - img.width / 2 + 'px';
-		img.style.top = 150 + position[1] - img.height / 2 + 'px';
+		img.style.top = 300 + position[1] - img.height / 2 + 'px';
 	}
 };
