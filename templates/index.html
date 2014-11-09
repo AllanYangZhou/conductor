@@ -1,8 +1,22 @@
 <html>
-<head></head>
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../static/main.css">
+</head>
 <body>
-	<h1 align="center">The Conductor</h1>
-	<div id="alerts" align="center"></div>
+	<div class="container">
+		<div class="row vertical-center">
+			<div class="col-sm-3"></div>
+			<div class="col-sm-6">
+				<div style="text-align: center;">
+					<span id = "status-icon" class="glyphicon glyphicon-play glyph-lg"></span>
+				</div>
+				<h1 align="center">The Conductor</h1>
+				<div id="alerts" align="center">Waiting to start.</div>
+			</div>
+			<div class="col-sm-3"></div>
+		</div>
+	</div>
 	<audio id="theSong" autoplay>
 		<source src="../static/music.mp3" type="audio/mpeg" >
 	</audio>
