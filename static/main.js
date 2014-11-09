@@ -60,7 +60,7 @@ Leap.loop(function(frame){
 			}
 		});
 	}
-}).use('screenPosition', {scale: 0.50});
+}).use('screenPosition', {positioning: 'absolute'});
 
 //creates new pointer
 var Pointer = function(){
@@ -72,7 +72,7 @@ var Pointer = function(){
 		document.body.appendChild(img);
 	};
 	pointer.setPosition = function(position){
-		img.style.left = position[0] - img.width / 2 + 'px';
-		img.style.top = 300 + position[1] - img.height / 2 + 'px';
+		img.style.left = position[0] - (1/2)* img.width / 2 + 'px';
+		img.style.top = window.innerHeight + (1/2)*(position[1] - img.height / 2) + 'px';
 	}
 };
