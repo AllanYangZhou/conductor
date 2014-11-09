@@ -1,7 +1,8 @@
 var pointers = {};
 var music = document.getElementById("theSong");
 var alerts = document.getElementById("alerts");
-alerts.innerHTML = "Waiting to start."
+var status = document.getElementById("status-icon");
+
 music.playbackRate = 0;
 Leap.loop(function(frame){
 	if(frame.hands.length > 0){
@@ -10,10 +11,12 @@ Leap.loop(function(frame){
 			console.log(frame.hands[0].grabStrength)
 			if(frame.hands[0].grabStrength > 0.8){
 				alerts.innerHTML = "Paused!";
+				document.getElementById("status-icon").className = 'glyphicon glyphicon-play glyph-lg';
 				music.playbackRate = 0;
 			}
 			else {
 				alerts.innerHTML = "Everything is running smoothly!";
+				document.getElementById("status-icon").className = 'glyphicon glyphicon-pause glyph-lg';
 				music.playbackRate = 1;
 			}
 		}
@@ -27,10 +30,12 @@ Leap.loop(function(frame){
 .use('handEntry')
 .on('handFound', function(){
 	alerts.innerHTML = 'Everything is running smoothly!';
+	document.getElementById("status-icon").className = 'glyphicon glyphicon-pause glyph-lg';
 	music.playbackRate = 1;
 })
 .on('handLost', function(){
 	alerts.innerHTML = 'You done goofed--we lost a hand!';
+	document.getElementById("status-icon").className = 'glyphicon glyphicon-minus-sign glyph-lg';
 	music.playbackRate = 0;
 });
 
