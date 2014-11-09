@@ -3,6 +3,10 @@ var music = document.getElementById("theSong");
 music.volume = 0.7
 var alerts = document.getElementById("alerts");
 var status = document.getElementById("status-icon");
+var height = window.innerHeight;
+var width = window.innerWidth;
+var pointerCoord = {x:0, y:0};
+var prev = [];
 
 var generalError = function(){
 	alerts.innerHTML = 'Something went wrong. Oops.';
@@ -22,6 +26,24 @@ var yesComposingHand = function(){
 	music.playbackRate = 1;
 };
 
+var boxFinder = function(x, y){
+	if((y < (height / 4)) && (x > (3 * width / 14)) && (x < 11 * width / 14)){
+		return true;
+	}
+	else if(y > (3 * height / 8) && x < (3*width/14)){
+		return true;
+	}
+	else if(x > (11*width / 14) && y > 3*height/8){
+		return true;
+	}
+	else if(y > 5*height/8){
+		return true;
+	}
+	else {
+		return false;
+	}
+};
+
 music.playbackRate = 0;
 Leap.loop(function(frame){
 	if(frame.hands.length > 2){
@@ -31,6 +53,15 @@ Leap.loop(function(frame){
 		noComposingHand();
 	}
 	else{
+		if(prev.length == 0){
+			prev = [boxFinder(pointerCoord.x, pointerCoord.y), new Date(3600*24*1000)];
+		}
+		else if(!prev[0] && boxFinder(pointerCoord.x, pointerCoord.y)){
+			
+		}
+		else {
+
+		}
 		frame.hands.forEach(function(hand, index){
 			var handType = hand.type;
 			//if left hand do volume control
@@ -72,7 +103,9 @@ var Pointer = function(){
 		document.body.appendChild(img);
 	};
 	pointer.setPosition = function(position){
-		img.style.left = position[0] - (1/2)* img.width / 2 + 'px';
-		img.style.top = window.innerHeight + (1/2)*(position[1] - img.height / 2) + 'px';
+		pointerCoord.x = position[0] - (1/2)* img.width / 2;
+		pointerCoord.y = window.innerHeight + (1/2)*(position[1] - img.height / 2);
+		img.style.left = pointerCoord.x + 'px';
+		img.style.top = pointerCoord.y + 'px';
 	}
 };
