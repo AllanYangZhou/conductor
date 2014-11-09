@@ -6,8 +6,7 @@ var status = document.getElementById("status-icon");
 var height = window.innerHeight;
 var width = window.innerWidth;
 var pointerCoord = {x:0, y:0};
-var prev = []; // first object is true/ false, 2nd object is date
-var times = []; //array that takes holds times between beats
+var prev = [];
 
 var generalError = function(){
 	alerts.innerHTML = 'Something went wrong. Oops.';
@@ -24,9 +23,7 @@ var noComposingHand = function(){
 var yesComposingHand = function(){
 	alerts.innerHTML = 'Everything is running smoothly!';
 	document.getElementById("status-icon").className = 'glyphicon glyphicon-pause glyph-lg';
-	if(music.playbackRate == 0){
-		music.playbackRate = 1;
-	}
+	music.playbackRate = 1;
 };
 
 var boxFinder = function(x, y){
@@ -49,54 +46,26 @@ var boxFinder = function(x, y){
 
 music.playbackRate = 0;
 Leap.loop(function(frame){
-	console.log(times);
-	if(frame.hands.length > 2){  //IF there are more than 2 hands, you done goofed
+	if(frame.hands.length > 2){
 		generalError();
 	}	
-
-
-	else if(frame.hands.length == 0 || (frame.hands.length == 1 && frame.hands[0].type == "left")) //If there are no hands or just the left, you are not composing
-	{ 
+	else if(frame.hands.length == 0 || (frame.hands.length == 1 && frame.hands[0].type == "left")){
 		noComposingHand();
 	}
-
-
-	else{  //If you are composing...
-
-		if(prev.length == 0)  //If the array is empty
-		{
+	else{
+		if(prev.length == 0){
 			prev = [boxFinder(pointerCoord.x, pointerCoord.y), new Date()];
 		}
-
-		else if(!prev[0] && boxFinder(pointerCoord.x, pointerCoord.y)){ //IF the previous is False and you are in a box
-			prev[0] = true; 
+		else if(boxFinder(pointerCoord.x, pointerCoord.y) && !prev[0]){
 			var current = new Date();
-
-			// if ( prev.length == 1)// If there are no Date Time values aka this is your first box
-			// {
-			// 	prev[1] =  current;
-			// }
-
-		
 			var difference = (current.getTime()-prev[1].getTime())/1000;
-			times.push(difference);
+			console.log(difference);
+			prev[0] = true;
 			prev[1] = current;
-
-			//If there are 4 times in the array:
-			if (times.length == 4)
-			{
-				avg_time = (times[0] + times[1] + times[2] + times[3])/4;
-				music.playbackRate = (60/ avg_time)/ 154;
-				times = [];
-			}
-
-				
-			}
-		else if (prev[0] && !boxFinder(pointerCoord.x, pointerCoord.y)){  //If the previous is True and you are outside a box
+		}
+		else if(!(boxFinder(pointerCoord.x, pointerCoord.y))) {
 			prev[0] = false;
 		}
-
-
 		frame.hands.forEach(function(hand, index){
 			var handType = hand.type;
 			//if left hand do volume control
